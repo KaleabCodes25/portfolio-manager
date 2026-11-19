@@ -2,10 +2,21 @@ package com.pluralsight.finance;
 
 import java.math.BigDecimal;
 
+/**
+ * BankAccount (Workbook 6a, Section 2-1 Implementing Interfaces, Exercise 1)
+ *
+ * A liquid account: its value changes every time money goes in or out.
+ * It is NOT a FixedAsset, so it does not extend that class. It only
+ * implements Valuable, which lets it sit next to the fixed assets
+ * wherever a Valuable is expected.
+ *
+ * "implements Valuable" is a promise: this class must have a getValue()
+ * method, otherwise it does not compile.
+ */
 public class BankAccount implements Valuable {
-    private String name;
-    private String accountNumber;
-    private BigDecimal balance;
+    private String name;            // the owner of the account
+    private String accountNumber;   // a String: it is an identifier, nobody calculates with it
+    private BigDecimal balance;     // money, so a BigDecimal
 
     public BankAccount(String name, String accountNumber, BigDecimal balance) {
         this.name = name;
@@ -13,27 +24,20 @@ public class BankAccount implements Valuable {
         this.balance = balance;
     }
 
-    public void withdraw(BigDecimal amount){
-
-    }
-    public void deposit(BigDecimal amount){
-
-    }
-
-    public String getName() {
-        return name;
+    // BigDecimal has no - or + operator: subtract() and add() do the work.
+    // Both return a NEW BigDecimal, so the result has to be assigned back
+    // to balance
+    public void withdraw(BigDecimal amount) {
+        balance = balance.subtract(amount);
     }
 
-    public String getAccountNumber() {
-        return accountNumber;
+    public void deposit(BigDecimal amount) {
+        balance = balance.add(amount);
     }
 
-    public BigDecimal getBalance() {
-        return balance;
-    }
-
+    // The method promised by Valuable: a bank account is worth its balance
     @Override
     public BigDecimal getValue() {
-        return null;
+        return balance;
     }
 }

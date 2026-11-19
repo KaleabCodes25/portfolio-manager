@@ -2,21 +2,28 @@ package com.pluralsight.finance;
 
 import java.math.BigDecimal;
 
-public class Gold extends FixedAsset{
-    private double weight;
+/**
+ * Gold (Workbook 6a, Section 2-1 Implementing Interfaces, Exercise 1)
+ *
+ * A child class of FixedAsset. It adds the weight and works out its own
+ * value from it.
+ */
+public class Gold extends FixedAsset {
+    private double weight;   // a weight, not money, so it stays a double
 
-    public Gold(String name, double weight) {
-        super(name);
+    public Gold(double weight) {
+        // Every Gold object has the same name, so it is not a parameter
+        super("Gold");
         this.weight = weight;
     }
 
     @Override
     public BigDecimal getValue() {
-        return null;
-    }
-
-
-    public double getWeight() {
-        return weight;
+        // Add your specific calculation for Gold value here
+        BigDecimal baseValue = BigDecimal.ZERO; // Set the base value for Gold
+        // Calculate the value based on weight and current market rate
+        // (100 per unit of weight). multiply() needs a BigDecimal, so the
+        // double weight is converted with BigDecimal.valueOf()
+        return baseValue.add(BigDecimal.valueOf(weight).multiply(new BigDecimal("100")));
     }
 }
